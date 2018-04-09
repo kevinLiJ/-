@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style lang="">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .main {
+            width: 200px;
+            margin: 100px auto;
+        }
+        
+        .MI_item {
+            position: relative;
+            /* 高要替换为清浮动 */
+            height: 32px;
+        }
+        
+        .MI_item+.MI_item {
+            margin-top: 15px;
+        }
+        
+        .MI_select_box,
+        .MI_input_box {
+            width: 50%;
+            float: left;
+        }
+        
+        .MI_select,
+        .MI_input {
+            width: 100%;
+            height: 32px;
+        }
+        
+        .MI_btn_box {
+            position: absolute;
+            right: -32px;
+            top: 0px;
+        }
+        
+        .MI_btn {
+            width: 32px;
+            height: 32px;
+            text-align: center;
+            line-height: 32px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        
+        .MI_btn.disabled {
+            cursor: no-drop;
+        }
+        
+        @media (max-width:1191px) {
+            .MI_select_box,
+            .MI_input_box {
+                width: calc((100% - 32px) / 2);
+            }
+            .MI_item>div {
+                float: left;
+            }
+            .MI_btn_box {
+                position: relative;
+                right: 0;
+                top: 0px;
+            }
+        }
+        
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- multi-input
+        1. 增加减少输入(最多五项)
+        2. 可以disabled
+        3. 验证 -->
+    <div class="main">
+        <div class="multi-input multi_input">
+        </div>
+    </div>
+    </div>
+    <script src="./jquery.js"></script>
+    <script src="./multiInput.js"></script>
+    <script>
+        var str = '[1|Credit Card, 2|Bank Transfer, 3|Bpay, 4|Poli, 5|Skrill, 6|Neteller, 7|Union Pay-CSE, 8|Union Pay- Leinfo, 9|Union Pay-PA, 10|Union Pay- DDbill, 11|Union Pay-ZotaPay, 12|Union Pay- RPN, 13|Union Pay-NAB, 14|Thailand-Zotapay, 15|Thailand-Paytoday, 16|Malaysia-Zotapay]'
+        var strlist = str.replace(/[\[]|[\]]/g, '').split(', ')
+        list = []
+        $.each(strlist, function(idx, item) {
+            keyvalArr = item.split('|')
+            list.push({
+                value: keyvalArr[0],
+                text: keyvalArr[1]
+
+            })
+        })
+
+        var str2 = '[5|0.10,1|0.20,2|0.03,14|4.00,12|5.00]';
+        var strlist2 = str2.replace(/[\[]|[\]]/g, '').split(',')
+        list2 = []
+        $.each(strlist2, function(idx, item) {
+            keyvalArr = item.split('|')
+            list2.push({
+                selected: keyvalArr[0],
+                inputVal: keyvalArr[1]
+
+            })
+        })
+        console.log(list2)
+
+        var mi = new MultiInput("multi-input", {
+            inputsSumChangeCB: function(inputsSum) {
+                console.log(inputsSum)
+            },
+            selectRepeatCB: function() {
+                alert('选择重复')
+            },
+            optionsList: list,
+            defaultData: list2
+        });
+    </script>
+</body>
+
+</html>
